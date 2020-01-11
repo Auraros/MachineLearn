@@ -1,0 +1,63 @@
+kNN.py代码说明：
+代码主要目的：
+实现knn分类器并且测试knn正确率。
+代码主要函数：
+
+1.loadDataSet(filename)：
+（1)参数：filename：文件路径
+（2）函数说明：
+        使用pandas提取数据，为了方便计算将花的品种用1，2，3计算
+（3）函数返回值：
+	attributes - 花的属性
+	attriLabels - 花的类别
+2.autoNorm(attributes)：
+ （1）参数：attributes - 特征矩阵
+ （2）函数说明：
+          使用公式  x = （x - x_min)/(max-min)对数据进行归一化
+ （3）函数返回值：
+	normAttributes - 归一化后的数据
+	range - 数据的范围
+	minVal  - 最小值
+
+3. classify0(inX, dataSet, labels, k)：
+ （1）参数：inX-用于分类的数据
+	  dataSet - 用于训练的数据
+	  labels - 花的种类标签
+	  k - 选取最小距离点的个数
+  （2）函数说明：
+          使用kNN算法的思想，对用于分类的数据进行分类
+  （3）函数返回值：
+	sortedClassCount[0][0] - 类别
+
+4.classifyPerson():
+ (1)参数：none
+ (2)函数说明：使用classify0（）函数将用户输入的四个属性作为测试集
+                      然后进行分类输出花的类型。
+ (3)函数返回值：none
+
+5.datingClassTest():
+ (1)参数：none
+ (2)函数说明：将数据集分成两份，训练集占七成，测试集占三成
+                      通过classify0（）函数得到测试集中的预测品种，
+	      再与真实值做对比，最后算出错误率并输出。
+ (3)函数返回值：none
+
+6.adjustK(x_test, x_train, y_test, y_train, nunTestVecs):
+ （1）参数：x_test - 测试集的特征值
+	    x_train - 训练集的特征值
+	    y_test - 测试集的标签值
+ 	    y_train- 训练集的标签值
+   	    nunTestVecs - 训练集的个数
+ （2）函数说明：目的：得到最优的参数k
+	        让k从1迭代到9，依靠测试集和训练集得出k取每一个值
+	        时候的正确率，返回正确率最大的时候所对应的k值。
+  （3）函数的返回值：k - k值
+
+代码的测试方法：
+1.测试算法的正确率：
+if __name__ == "__main__":
+	datingClassTest()  #测试数据集
+
+2.使用knn分类器：
+if __name__ == "__main__":
+	 classifyPerson()   # 使用数据集

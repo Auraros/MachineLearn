@@ -1,0 +1,87 @@
+kmeans算法集合.py代码说明：
+代码的主要目的：
+利用Iris数据实现km-eans聚类和二分k-means聚类，并将得到的
+质心和聚类结果写入文件中
+代码的主要函数：
+
+1.loadDataSet(filename)：
+（1)参数：filename：文件路径
+（2）函数说明：
+        使用pandas提取数据，为了方便计算将花的品种用1，2，3计算
+（3）函数返回值：
+	attributes - 花的属性
+	attriLabels - 花的类别
+
+2.randCent(dataSet, k):
+（1）参数：dataSet：需要聚类的数据集
+（2）函数说明：
+	得到随机生成的k个随机质心
+ （3）函数返回值：
+	centroids - 质心列表
+
+3.distEclud(vecA,vecB):
+（1）参数：vecA - A点
+	   vecB - B点
+（2）函数说明：计算两个点之间的欧式距离
+（3)函数的返回值：
+	两点之间的欧式距离
+
+4.KMeans(dataSet, k, distMeas=distEclud, createCent=randCent):
+（1）参数：dataSet - 要被聚类的特征集
+	   K - 被分成k个类
+	   distMeas = distEclud  表示distMeas为欧式距离函数
+	   createCent=randCent 表示createCent为随机生成质心函数
+（2）函数说明：k-means算法的主函数
+	先随机生成k个质心，计算数据点到质心的欧式距离，然后和最小距离判断，
+	如果距离比最小值小，则替换最小值。并且计算这些数据的均值，作为新的
+	一个质心，这样一直循环，直到最小值距离不再变化，得到k个质心
+（3）函数的返回值：
+	centroids - 得到最终的k个质心
+	clusterAssment - 返回聚类结果和误差
+
+5.biKmeans(dataSet, k, distMeans = distEclud):
+（1）参数：dataSet - 要被聚类的特征集
+	  k- 被分成k个类
+	   distMeas = distEclud  表示distMeas为欧式距离函数
+（2）函数说明：
+	先将原始数据集看成一个类，建立循环，利用k-means方法划分类，计算两
+	个划分后的类的误差平方和，再计算不属于该类的误差平方和，判断两个误差之和
+	小于总误差。则这一类变成本次划分的类在对最小误差进行赋值。以此重复
+（3）函数返回值：
+	centList - 得到最终的k个质心
+	clusterAssment - 得到聚类结果和误差
+
+6.chooseK(dataSet, i):
+（1）参数dataSet - 要被聚类的数据
+	i -  得到k从1迭代到i
+（2）函数说明：
+	让k从1迭代到k算出每个对应的误差平方和，进行绘制手肘图
+	找到下降变化速度最大的那个点所对应的k值
+（3）函数返回值:
+	none
+
+7.writeTxt(cenList1, clusterAssment, type=1):
+（1）参数： cenList1 - 质心
+	   clusterAssment - 聚类结果和误差
+	   type - 1为二分k-means， 2为k-means
+（2）函数说明：
+	将得到的分类结果和质心分别写入consequeue01.txt和
+	consequeue02.txt中
+（3）函数返回值：none
+
+
+函数的调试说明：
+1.对k-means进行调试
+if __name__ == '__main__':
+    filename = "iris.data"      #文件路径
+    attributes, labels = loadDataSet(filename)   #得到数据
+    centList, clusterAssment = KMeans(attributes, 3)   #k=3时得到质心和分类结果
+    # chooseK(attributes, 7)     #画图
+    writeTxt(centList, clusterAssment, 2)   #写入文件
+
+2.对二分k-means进行调试：
+if __name__ == '__main__':
+    filename = "iris.data"      #文件路径
+    attributes, labels = loadDataSet(filename)   #得到数据
+    centList, clusterAssment = biKmeans(attributes, 3)   #k=3时得到质心和分类结果
+    writeTxt(centList, clusterAssment, 1)   #写入文件

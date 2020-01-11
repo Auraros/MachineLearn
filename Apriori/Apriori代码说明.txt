@@ -1,0 +1,76 @@
+Apriori代码说明：
+代码主要内容：
+使用Apriori算法对mushroom数据集找到频繁项集和强关联规则的项
+
+主要函数：
+1.loadDataSet():
+（1）参数：none
+（2）函数说明：提取数据，并将字符数据改成数字
+（3）函数返回值：
+	mode_label - 特征值
+
+2.createC1(dataSet):
+(1)参数：dataSst - 数据集
+(2)函数说明：构建初始候选项集的列表，即所有候选集只包含一个元素
+(3)函数返回值：
+	list(map(frozenset, C1)) - 返回初始候选集的列表
+
+3.scanD(D,Ck,minSupport):
+（1）参数：  D-数据集合
+	     Ck - 项集
+	    minSupport - 最小支持度
+（2）函数说明：计算Ck中的项集在数据集合D中的支持度, 返回满足最小支持度的项集的集合，
+	         和所有项集支持度信息的字典。
+（3）函数返回值：
+	retList - 满足最小支持度的项集的集合
+	supportData - 所有项集支持度信息的字典
+
+4.aprioriGen(Lk, k):
+（1）参数： Lk-频繁项集列表
+	   k-项集元素的个数
+（2）函数说明：由初始候选集的集合生成心得候选集，k参数表示生成新项集中所含有的元素的个数
+（3）函数返回值：
+	retList - 新的候选集
+
+5.apriori(dataSet, minSupport = 0.5):
+（1）参数：  dataSet - 数据集
+	    minsupport - 最小支持度
+（2）函数说明：Apriori算法重要函数，重要目的是返回所有满足条件的频繁项集的列表和所有选项集
+                        的支持度信息。
+（3）函数返回值：
+	L - 满足条件的频繁项集的列表
+	supportData - 所有选项集的支持度信息。
+
+6.generateRules(L, supportData, minConf=0.7):
+（1）参数：   L - 频繁项集列表
+	      supportData - 包含那些频繁项集支持数据的字典
+	      minConf - 最小可信度阈值
+（2）函数说明：根据频繁项集和最小可信度生成规则
+（3）函数返回值：
+	  bigRuleList - 强关联规则的列表
+
+7. calcConf(freqSet, H, supportData, brl, minConf=0.7):
+（1）参数：    freqSet - 频繁项集
+	      H - 频繁项集中所有的元素
+	      supportData - 频繁项集中所有元素的支持度
+	     brl - 满足可信度条件的关联规则
+	      minConf - 最小可信度
+(2)函数说明：计算规则的可信度，返回满足最小可信度的规则。
+（3）函数的返回值：
+	prunedH- 返回满足最小可信度的规则
+
+8.rulesFromConseq(freqSet, H, supportData, brl, minConf=0.7):
+（1）参数： freqSet:频繁项集
+    	    H:频繁项集中的所有元素，即可以出现在规则右部的元素
+    	    supportData:所有项集的支持度信息
+    	    brl:生成的规则
+（2）函数说明：对频繁项集中元素超过2的项集进行合并。
+（3）函数返回值：none
+
+函数的测试：
+if __name__ == '__main__':
+    dataSet = loadDataSet()
+    dataSet = dataSet.values
+    dataSet = dataSet.tolist()
+    L, suppData = apriori(dataSet, minSupport=0.7)
+    rules = generateRules(L, suppData, minConf=0.7)
